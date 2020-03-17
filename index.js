@@ -18,6 +18,6 @@ db.on('error', (err) => console.log(err));
 
 db.once('open', () => {
     //seperate routing files for each resource, instead of endpoints here
-    require('./routes/customers')(server);
+    require('./routes/customer')(server);
     console.log(`Server started on port ${config.PORT}`);
 })
