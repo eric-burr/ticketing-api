@@ -9,6 +9,9 @@ const server = restify.createServer();
 server.use(restify.plugins.bodyParser());
 
 server.listen(config.PORT, () => {
+    //remove the deprecated message in console
+    mongoose.set('useFindAndModify', false)
+    
     mongoose.connect(config.MONGODB_URI, { useNewUrlParser: true});
 });
 
