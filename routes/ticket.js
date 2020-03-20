@@ -1,14 +1,14 @@
 //receiving from server in index
 const errors = require('restify-errors');
 
-const Customer = require('../models/Customers')
+const Ticket = require('../models/Ticket')
 
 module.exports = server => {
     //get
-    server.get('/customers', async (req, res, next) => {
+    server.get('/ticket', async (req, res, next) => {
         try{
-        const customers = await Customer.find({}); 
-        res.send(customers);
+        const ticket = await Ticket.find({}); 
+        res.send(ticket);
         //restify needs to end on a next function
         next();
         } catch (err) {
@@ -17,19 +17,19 @@ module.exports = server => {
     });
 
  //add
-    server.post('/customers', async (req, res, next) => {
+    server.post('/ticket', async (req, res, next) => {
         if(!req.is('application/json')) {
             return next(new errors.InvalidContentError("Expects 'application/json'"));
         }
-        //creates a new customer object 
-        const {name, email, balance } = req.body
-        const customer = new Customer({
-            name,
-            email,
-            balance
+        //creates a new ticket object 
+        const {title, subject, completed } = req.body
+        const ticket = new Ticket({
+            title,
+            subject,
+            completed
         });
         try {
-            const newCustomer = await customer.save();
+            const newTicket = await ticket.save();
             //201 means something was created
             res.send(201);
             next();
@@ -40,9 +40,9 @@ module.exports = server => {
 
     //delete
     //restify uses del instad of delete
-    server.del('/customers/:id', async (req, res, next) => {
+    server.del('/ticket/:id', async (req, res, next) => {
         try {
-            const customer = await Customer.findOneAndRemove({ _id: req.params.id });
+            const ticket = await Ticket.findOneAndRemove({ _id: req.params.id });
             res.sent(204);
             next();
         } catch(err) {
