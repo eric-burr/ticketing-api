@@ -1,9 +1,27 @@
 const restify = require('restify');
 const mongoose = require('mongoose');
 const config = require('./config');
-const rjwt = require('restify-jwt-community');
+var corsOne = require('cors')
+
+// const rjwt = require('restify-jwt-community');
+
+const corsMiddleware = require('restify-cors-middleware');
+
+//allowHeaders wasn't including the headers being sent from
+//UI. * is the wildcard that makes it work now.
+const cors = corsMiddleware({
+    preflightMaxAge: 5, //Optional
+    origins: ['*', 'http://localhost:3001'],
+    allowHeaders: ['*'],
+    exposeHeaders: ['Authorization'],
+  })
 
 const server = restify.createServer();
+
+server.pre(cors.preflight)
+server.use(cors.actual)
+
+server.use(corsOne())
 
 //middleware
 

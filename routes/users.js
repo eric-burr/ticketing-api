@@ -4,11 +4,26 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 const auth = require('../auth');
 const config = require('../config')
+const index = require('../index')
 
+// const corsMiddleware = require('restify-cors-middleware');
 
+// const cors = corsMiddleware({
+//     preflightMaxAge: 5, //Optional
+//     origins: ['*', 'http://localhost:3001'],
+//     allowHeaders: ['Authorization'],
+//     exposeHeaders: ['Authorization'],
+//   })
+
+//   const server = restify.createServer();
+
+// server.pre(cors.preflight)
+// server.use(cors.actual)
+     
 module.exports = server => {
     //Register User
     server.post('/register', (req, res, next) => {
+        console.log(req.body)
         //send email + password, destruction from req.body
         const { email, password } = req.body;
         //create user from User Model brought (line 2)
